@@ -4,6 +4,7 @@ dotenv.config({
 });
 import express from "express";
 import bootcamps from "./routes/bootcamps.js";
+import courses from "./routes/courses.js";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 
 app.use(errorHandler);
 

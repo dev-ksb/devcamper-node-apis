@@ -1,5 +1,6 @@
 import { Router } from "express";
 import bootcamps from "../controllers/bootcamps.js";
+import coursesRouter from "./courses.js";
 
 const {
   getBootcamps,
@@ -7,9 +8,15 @@ const {
   createBootcamp,
   updateBootcamp,
   deleteBootcamp,
+  getBootcampInRadius,
 } = bootcamps;
 
 const router = Router();
+
+// Re-route into other resource routers
+router.use("/:bootcampId/courses", coursesRouter);
+
+router.route("/radius/:zipcode/:distance").get(getBootcampInRadius);
 
 router.route("/").get(getBootcamps).post(createBootcamp);
 
