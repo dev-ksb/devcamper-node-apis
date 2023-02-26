@@ -9,6 +9,7 @@ const {
   updateBootcamp,
   deleteBootcamp,
   getBootcampInRadius,
+  bootcampPhotoUpload,
 } = bootcamps;
 
 const router = Router();
@@ -17,6 +18,8 @@ const router = Router();
 router.use("/:bootcampId/courses", coursesRouter);
 
 router.route("/radius/:zipcode/:distance").get(getBootcampInRadius);
+
+router.route("/:id/photo").put(bootcampPhotoUpload);
 
 router.route("/").get(getBootcamps).post(createBootcamp);
 

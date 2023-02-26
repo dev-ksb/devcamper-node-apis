@@ -9,14 +9,24 @@ import morgan from "morgan";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
 import { errorHandler } from "./middleware/error.js";
+import fileUpload from "express-fileupload";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "public")));
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// File upload
+app.use(fileUpload());
 
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);

@@ -101,7 +101,7 @@ export const updateCourse = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @description Update Course
+ * @description Delete Course
  * @method DELETE /api/v1/bootcamps/:bootcampId/courses
  * @access Private
  */
