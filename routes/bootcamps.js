@@ -2,6 +2,9 @@ import { Router } from "express";
 import bootcamps from "../controllers/bootcamps.js";
 import coursesRouter from "./courses.js";
 
+import { advancedResults } from "../middleware/advancedResults.js";
+import Bootcamp from "../models/Bootcamp.js";
+
 const {
   getBootcamps,
   getBootcamp,
@@ -21,7 +24,10 @@ router.route("/radius/:zipcode/:distance").get(getBootcampInRadius);
 
 router.route("/:id/photo").put(bootcampPhotoUpload);
 
-router.route("/").get(getBootcamps).post(createBootcamp);
+router
+  .route("/")
+  .get(advancedResults(Bootcamp, "courses"), getBootcamps)
+  .post(createBootcamp);
 
 router
   .route("/:id")
