@@ -7,6 +7,7 @@ import {
   updateCourse,
 } from "../controllers/courses.js";
 import { advancedResults } from "../middleware/advancedResults.js";
+import { authorize, protect } from "../middleware/auth.js";
 import Course from "../models/Course.js";
 
 const router = Router({ mergeParams: true });
@@ -20,7 +21,11 @@ router
     }),
     getCourses
   )
-  .post(addCourse);
-router.route("/:id").get(getCourse).put(updateCourse).delete(deleteCourse);
+  .post(protect, authorize("publisher", "admin"), addCourse);
+router
+  .route("/:id")
+  .get(getCourse)
+  .put(protect, authorize("publisher", "admin"), updateCourse)
+  .delete(protect, authorize("publisher", "admin"), deleteCourse);
 
 export default router;

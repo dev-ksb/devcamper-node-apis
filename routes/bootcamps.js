@@ -4,6 +4,7 @@ import coursesRouter from "./courses.js";
 
 import { advancedResults } from "../middleware/advancedResults.js";
 import Bootcamp from "../models/Bootcamp.js";
+import { authorize, protect } from "../middleware/auth.js";
 
 const {
   getBootcamps,
@@ -22,17 +23,19 @@ router.use("/:bootcampId/courses", coursesRouter);
 
 router.route("/radius/:zipcode/:distance").get(getBootcampInRadius);
 
-router.route("/:id/photo").put(bootcampPhotoUpload);
+router
+  .route("/:id/photo")
+  .put(protect, authorize("publisher", "admin"), bootcampPhotoUpload);
 
 router
   .route("/")
   .get(advancedResults(Bootcamp, "courses"), getBootcamps)
-  .post(createBootcamp);
+  .post(protect, authorize("publisher", "admin"), createBootcamp);
 
 router
   .route("/:id")
   .get(getBootcamp)
-  .put(updateBootcamp)
-  .delete(deleteBootcamp);
+  .put(protect, authorize("publisher", "admin"), updateBootcamp)
+  .delete(protect, authorize("publisher", "admin"), deleteBootcamp);
 
 export default router;
