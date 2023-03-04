@@ -58,8 +58,6 @@ CourseSchema.statics.getAverageCost = async function (bootcampId) {
     },
   ]);
 
-  console.log(obj);
-
   const averageCost = obj[0]
     ? Math.ceil(obj[0].averageCost / 10) * 10
     : undefined;
