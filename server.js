@@ -6,6 +6,7 @@ import express from "express";
 import bootcamps from "./routes/bootcamps.js";
 import courses from "./routes/courses.js";
 import auth from "./routes/auth.js";
+import users from "./routes/users.js";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
@@ -24,6 +25,7 @@ app.use(express.json());
 // Cookie parser
 app.use(cookieParser());
 
+// static folder path
 app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV === "development") {
@@ -36,6 +38,7 @@ app.use(fileUpload());
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/users", users);
 
 app.use(errorHandler);
 
