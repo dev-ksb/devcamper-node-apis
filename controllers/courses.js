@@ -35,7 +35,7 @@ export const getCourse = asyncHandler(async (req, res, next) => {
   });
 
   if (!course) {
-    return next(ErrorResponse(`No course with id of ${id}`), 404);
+    return next(ErrorResponse(`No course with id of ${id}`, 404));
   }
 
   res.status(200).json({
@@ -88,7 +88,7 @@ export const updateCourse = asyncHandler(async (req, res, next) => {
   let course = await Course.findById(req.params.id);
 
   if (!course) {
-    return next(ErrorResponse(`No course with id of ${req.params.id}`), 404);
+    return next(ErrorResponse(`No course with id of ${req.params.id}`, 404));
   }
 
   if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
@@ -120,7 +120,7 @@ export const deleteCourse = asyncHandler(async (req, res, next) => {
   const course = await Course.findById(req.params.id);
 
   if (!course) {
-    return next(ErrorResponse(`No course with id of ${req.params.id}`), 404);
+    return next(ErrorResponse(`No course with id of ${req.params.id}`));
   }
 
   if (course.user.toString() !== req.user.id && req.user.role !== "admin") {

@@ -7,6 +7,7 @@ import bootcamps from "./routes/bootcamps.js";
 import courses from "./routes/courses.js";
 import auth from "./routes/auth.js";
 import users from "./routes/users.js";
+import reviews from "./routes/reviews.js";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
@@ -15,6 +16,12 @@ import fileUpload from "express-fileupload";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
+import mongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
+import xss from "xss-clean";
+import rateLimit from "express-rate-limit";
+import hpp from "hpp";
+import cors from "cors";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -35,10 +42,34 @@ if (process.env.NODE_ENV === "development") {
 // File upload
 app.use(fileUpload());
 
+// Sanitize Data
+app.use(mongoSanitize());
+
+// security headers
+app.use(helmet());
+
+// prevent XSS
+app.use(xss());
+
+// Rate limit
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 100,
+});
+
+app.use(limiter);
+
+// hpp
+app.use(hpp());
+
+// Enable cors
+app.use(cors());
+
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
+app.use("/api/v1/reviews", reviews);
 
 app.use(errorHandler);
 

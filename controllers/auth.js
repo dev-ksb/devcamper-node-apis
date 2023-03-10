@@ -10,7 +10,6 @@ import crypto from "crypto";
  * @method POST /api/v1/auth/register
  * @access Public
  */
-
 export const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
 
@@ -81,6 +80,23 @@ export const getMeLogIn = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     user,
+  });
+});
+
+/**
+ * @description Logout the user
+ * @method GET /api/v1/auth/logout
+ * @access Private
+ */
+export const logout = asyncHandler(async (req, res, next) => {
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {},
   });
 });
 

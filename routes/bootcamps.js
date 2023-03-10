@@ -1,6 +1,7 @@
 import { Router } from "express";
 import bootcamps from "../controllers/bootcamps.js";
 import coursesRouter from "./courses.js";
+import reviewsRouter from "./reviews.js";
 
 import { advancedResults } from "../middleware/advancedResults.js";
 import Bootcamp from "../models/Bootcamp.js";
@@ -20,6 +21,7 @@ const router = Router();
 
 // Re-route into other resource routers
 router.use("/:bootcampId/courses", coursesRouter);
+router.use("/:bootcampId/reviews", reviewsRouter);
 
 router.route("/radius/:zipcode/:distance").get(getBootcampInRadius);
 

@@ -22,6 +22,7 @@ router
     getCourses
   )
   .post(protect, authorize("publisher", "admin"), addCourse);
+
 router
   .route("/:id")
   .get(getCourse)
